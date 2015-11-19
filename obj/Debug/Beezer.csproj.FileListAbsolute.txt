@@ -1,0 +1,11 @@
+D:\beezer\Beezer\bin\Debug\Beezer.exe.config
+D:\beezer\Beezer\bin\Debug\Beezer.exe
+D:\beezer\Beezer\bin\Debug\Beezer.pdb
+D:\beezer\Beezer\bin\Debug\HtmlAgilityPack.dll
+D:\beezer\Beezer\bin\Debug\Newtonsoft.Json.dll
+D:\beezer\Beezer\bin\Debug\HtmlAgilityPack.pdb
+D:\beezer\Beezer\bin\Debug\HtmlAgilityPack.xml
+D:\beezer\Beezer\bin\Debug\Newtonsoft.Json.xml
+D:\beezer\Beezer\obj\Debug\Beezer.csprojResolveAssemblyReference.cache
+D:\beezer\Beezer\obj\Debug\Beezer.exe
+D:\beezer\Beezer\obj\Debug\Beezer.pdb
