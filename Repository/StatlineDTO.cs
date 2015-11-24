@@ -1,30 +1,40 @@
-﻿namespace Beezer.Repository
+﻿using System;
+using PetaPoco;
+
+namespace Beezer.Repository
 {
-    internal class StatlineDTO
+    [TableName("Statline"), PrimaryKey("Id")]
+    public class StatlineDTO
     {
-        public decimal faceoffWinPctg { get; set; }
-        public int gamesPlayed { get; set; }
-        public int goalsAgainst { get; set; }
-        public int goalsFor { get; set; }
-        public decimal goalsAgainstPerGame { get; set; }
-        public decimal goalsForPerGame { get; set; }
-        public int losses { get; set; }
-        public int otLosses { get; set; }
-        public decimal pkPctg { get; set; }
-        public decimal pointPctg { get; set; }
-        public int points { get; set; }
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public decimal FaceoffWinPercentage { get; set; }
+        public int GamesPlayed { get; set; }
+        public int GoalsAgainst { get; set; }
+        public int GoalsFor { get; set; }
+        public decimal GoalsAgainstPerGame { get; set; }
+        public decimal GoalsForPerGame { get; set; }
+        public int Losses { get; set; }
+        public int OvertimeLosses { get; set; }
+        public decimal PenaltyKillPercentage { get; set; }
+        /// <summary>
+        /// Points divided by maximum number of points
+        /// </summary>
+        public decimal PointPercentage { get; set; }
+        public int Points { get; set; }
         /// <summary>
         /// Power play percentage
         /// </summary>
-        public decimal ppPctg { get; set; }
-        public int regPlusOtWins { get; set; }
-        public int seasonId { get; set; }
-        public decimal shotsAgainstPerGame { get; set; }
-        public decimal shotsForPerGame { get; set; }
-        public string teamAbbrev { get; set; }
-        public string teamFullName { get; set; }
-        public int teamId { get; set; }
-        public int ties { get; set; }
-        public int wins { get; set; }
+        public decimal PowerPlayPercentage { get; set; }
+        public int RegularPlusOvertimeWins { get; set; }
+        public int SeasonId { get; set; }
+        public decimal ShotsAgainstPerGame { get; set; }
+        public decimal ShotsForPerGame { get; set; }
+        public string TeamAbbrev { get; set; }
+        public string TeamFullName { get; set; }
+        public int TeamId { get; set; }
+        public int Ties { get; set; }
+        public int Wins { get; set; }
+        public int Team { get; set; }
     }
 }

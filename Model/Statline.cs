@@ -1,11 +1,11 @@
 ﻿using System;
+using Beezer.Enums;
 
 namespace Beezer.Model
 {
     public class Statline
     {
         public DateTime Date { get; set; }
-        // TODO: mapping of teams to their own object so we don't have to save everything all the time
         public decimal FaceoffWinPercentage { get; set; }
         public int GamesPlayed { get; set; }
         public int GoalsAgainst { get; set; }
@@ -33,5 +33,6 @@ namespace Beezer.Model
         public int TeamId { get; set; }
         public int Ties { get; set; }
         public int Wins { get; set; }
+        public Team Team { get; set; }
     }
 }

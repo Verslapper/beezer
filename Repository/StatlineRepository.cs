@@ -13,24 +13,30 @@ namespace Beezer.Repository
             _db = new Database("Beezer.ConnectionString");
         }
 
-        public Statline GetLatestStatline(int teamId)
-        {
-            // TODO: double DTO DTO demon
-            var dto = _db.FirstOrDefault<Statline>("where teamId = @0 order by Date desc", teamId);
-            if (dto != null)
-            {
-                return new Statline
-                {
-                    Wins = dto.Wins
-                };
-            }
-            return null;
-        }
-
         public void Add(Statline statline)
         {
-            // TODO: double DTO DTO demon
-            _db.Insert("Statline", "ID", statline);
+            _db.Insert(new StatlineDTO
+            {
+                Date = statline.Date,
+                FaceoffWinPercentage = statline.FaceoffWinPercentage,
+                GamesPlayed = statline.GamesPlayed,
+                GoalsAgainst = statline.GoalsAgainst,
+                GoalsAgainstPerGame = statline.GoalsAgainstPerGame,
+                GoalsFor = statline.GoalsFor,
+                GoalsForPerGame = statline.GoalsForPerGame,
+                Points = statline.Points,
+                Losses = statline.Losses,
+                Wins = statline.Wins,
+                OvertimeLosses = statline.OvertimeLosses,
+                RegularPlusOvertimeWins = statline.RegularPlusOvertimeWins,
+                PowerPlayPercentage = statline.PowerPlayPercentage,
+                PenaltyKillPercentage = statline.PenaltyKillPercentage,
+                PointPercentage = statline.PointPercentage,
+                SeasonId = statline.SeasonId,
+                ShotsForPerGame = statline.ShotsForPerGame,
+                ShotsAgainstPerGame = statline.ShotsAgainstPerGame,
+                Team = (int)statline.Team,
+            });
         }
     }
 }
