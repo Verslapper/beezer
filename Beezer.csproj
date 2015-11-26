@@ -35,6 +35,9 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Meta.Numerics">
+      <HintPath>packages\Portable.Meta.Numerics.3.1.0.73149\lib\portable-net4+sl5+netcore45+wpa81+wp8\Meta.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -55,6 +58,7 @@
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PetaPoco.cs" />
+    <Compile Include="Model\Correlation.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\Statline.cs" />
     <Compile Include="Program.cs" />
@@ -66,6 +70,7 @@
     <Compile Include="Repository\StatlineRepository.cs" />
     <Compile Include="Repository\StatlineSummaryDTO.cs" />
     <Compile Include="Enums\Team.cs" />
+    <Compile Include="Services\PredictorService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,4 +1,8 @@
-﻿using Beezer.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Beezer.Enums;
+using Beezer.Model;
 using PetaPoco;
 
 namespace Beezer.Repository
@@ -34,6 +38,20 @@ namespace Beezer.Repository
                 existingGame.HomeScore = game.HomeScore;
                 _db.Save(existingGame);
             }
+        }
+
+        public List<Game> GetNextGames()
+        {
+            // These are the next gameday of games. Assumes we are up-to-date with results.
+            var dtos = _db.Fetch<GameDTO>("where date = (select min(date) from Game where homescore is null)");
+
+            return dtos.Select(dto => new Game
+            {
+                Id = dto.Id,
+                Date = dto.Date,
+                AwayTeam = (Team) Enum.Parse(typeof (Team), dto.AwayTeam.ToString()),
+                HomeTeam = (Team) Enum.Parse(typeof (Team), dto.HomeTeam.ToString()),
+            }).ToList();
         }
     }
 }

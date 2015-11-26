@@ -30,9 +30,6 @@ namespace Beezer.Repository
         public int SeasonId { get; set; }
         public decimal ShotsAgainstPerGame { get; set; }
         public decimal ShotsForPerGame { get; set; }
-        public string TeamAbbrev { get; set; }
-        public string TeamFullName { get; set; }
-        public int TeamId { get; set; }
         public int Ties { get; set; }
         public int Wins { get; set; }
         public int Team { get; set; }

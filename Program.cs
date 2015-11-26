@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,7 +9,9 @@ using System.Threading;
 using Beezer.Enums;
 using Beezer.Model;
 using Beezer.Repository;
+using Beezer.Services;
 using HtmlAgilityPack;
+using Meta.Numerics.Statistics;
 using Newtonsoft.Json;
 
 namespace Beezer
@@ -16,15 +20,61 @@ namespace Beezer
     {
         private static readonly StatlineRepository _statlineRepository = new StatlineRepository();
         private static readonly GameRepository _gameRepository = new GameRepository();
+        private static readonly PredictorService _predictorService = new PredictorService(_statlineRepository);
 
         static void Main(string[] args)
         {
             Console.WriteLine("Puck drop!");
-            GetTeamStats();
+            //GetTeamStats();
             Console.WriteLine("End of the first!");
-            GetSchedule();
+            //GetSchedule();
+            Console.WriteLine("That'll do us for the second.");
+            PredictNextGames();
             Console.WriteLine("That's the horn!");
             Thread.Sleep(420);
+        }
+
+        private static void PredictNextGames()
+        {
+            // this is telling us about correlations. I've already built in the key parameters later in this function.
+            _predictorService.FindCorrelationsViaLinearRegression();
+
+            var nextGames = _gameRepository.GetNextGames();
+            foreach (var game in nextGames)
+            {
+                Console.WriteLine("{0} at {1}", game.AwayTeam, game.HomeTeam);
+
+                var statlines = _statlineRepository.GetStatlinesForGame(game);
+
+                Game game1 = game;
+                var home = statlines.Single(s => s.Team == game1.HomeTeam);
+                var away = statlines.Single(s => s.Team == game1.AwayTeam);
+
+                //This is disappointing. The strongest correlation is between Point % and ROTW, which aren't really independent of each other.
+                //At least it infers, weakly (65-75%) that low penalty kill and faceoff win percentages actually boost goals for per game
+
+                // Let's make predictions
+                var homeToScoreMoreDueToLowPK = home.PenaltyKillPercentage < away.PenaltyKillPercentage;
+                Console.WriteLine("Johnny's first predictor sezz: winner is {0}", homeToScoreMoreDueToLowPK ? home.Team : away.Team);
+
+                var homeToScoreMoreDueToLowFOW = home.FaceoffWinPercentage < away.FaceoffWinPercentage;
+                Console.WriteLine("Johnny's second predictor sezz: winner is {0}", homeToScoreMoreDueToLowFOW ? home.Team : away.Team);
+
+                // TODO: Write these to database
+                if (homeToScoreMoreDueToLowFOW && homeToScoreMoreDueToLowPK)
+                {
+                    Console.WriteLine("----> Our predicted winner is {0} <----", home.Team);
+                }
+                else if (!homeToScoreMoreDueToLowFOW && !homeToScoreMoreDueToLowPK)
+                {
+                    Console.WriteLine("----> Our predicted winner is {0} <----", away.Team);
+                }
+                else
+                {
+                    Console.WriteLine("Too close to call, let's sit out {0} at {1}", away.Team, home.Team);
+                }
+                Thread.Sleep(4200);
+            }
         }
 
         private static void GetSchedule()
@@ -150,10 +200,10 @@ namespace Beezer
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // for 404s, move along
-                Console.WriteLine("Something went wrong with the team stats.");
+                Console.WriteLine("Something went wrong with the team stats: {0}", e);
             }
         }
     }
