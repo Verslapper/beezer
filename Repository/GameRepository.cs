@@ -40,6 +40,19 @@ namespace Beezer.Repository
             }
         }
 
+        public int? GetGameId(Game game)
+        {
+            if (game.Id != 0)
+            {
+                return game.Id;
+            }
+
+            var dto = _db.SingleOrDefault<int?>("select Id from Game where Date = @0 and AwayTeam = @1 and HomeTeam = @2",
+                                                            game.Date, game.AwayTeam, game.HomeTeam);
+
+            return dto.HasValue ? dto.Value : (int?)null;
+        }
+
         public List<Game> GetNextGames()
         {
             // These are the next gameday of games. Assumes we are up-to-date with results.
@@ -51,6 +64,21 @@ namespace Beezer.Repository
                 Date = dto.Date,
                 AwayTeam = (Team) Enum.Parse(typeof (Team), dto.AwayTeam.ToString()),
                 HomeTeam = (Team) Enum.Parse(typeof (Team), dto.HomeTeam.ToString()),
+            }).ToList();
+        }
+
+        public List<Game> GetLastResultedGames(int gamesToReturn)
+        {
+            var dtos = _db.Fetch<GameDTO>("select top " + gamesToReturn + " * from Game where HomeScore is not null order by Date desc");
+
+            return dtos.Select(dto => new Game
+            {
+                Id = dto.Id,
+                Date = dto.Date,
+                AwayTeam = (Team)Enum.Parse(typeof(Team), dto.AwayTeam.ToString()),
+                HomeTeam = (Team)Enum.Parse(typeof(Team), dto.HomeTeam.ToString()),
+                AwayScore = dto.AwayScore,
+                HomeScore = dto.HomeScore,
             }).ToList();
         }
     }

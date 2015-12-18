@@ -33,5 +33,20 @@ namespace Beezer.Repository
         public int Ties { get; set; }
         public int Wins { get; set; }
         public int Team { get; set; }
+        public int Rank { get; set; }
+        public int PlusMinus { get; set; }
+        public int HomeWins { get; set; }
+        public int HomeLosses { get; set; }
+        public int HomeOvertimeLosses { get; set; }
+        public int AwayWins { get; set; }
+        public int AwayLosses { get; set; }
+        public int AwayOvertimeLosses { get; set; }
+        public int ShootoutWins { get; set; }
+        public int ShootoutLosses { get; set; }
+        public int WinsInLast10 { get; set; }
+        public int LossesInLast10 { get; set; }
+        public int OvertimeLossesInLast10 { get; set; }
+        public int StreakType { get; set; }
+        public int StreakLength { get; set; }
     }
 }
